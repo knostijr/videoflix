@@ -2,17 +2,29 @@
 __pycache__/
 *.py[cod]
 *.pyo
+*.pyd
 venv/
 .venv/
+*.egg-info/
+dist/
+build/
 
 # Django
 *.log
 local_settings.py
 db.sqlite3
 media/
+staticfiles/
 
 # Environment
 .env
+.env.*
+!.env.example
+
+# Testing & Coverage
+.coverage
+htmlcov/
+.pytest_cache/
 
 # VS Code
 .vscode/
@@ -20,3 +32,4 @@ media/
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
