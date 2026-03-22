@@ -62,6 +62,7 @@ class LogoutViewTest(VideoflixTestCase):
 
     def test_logout_returns_200(self):
         """An authenticated logout request should return HTTP 200."""
+        self.client.cookies['refresh_token'] = 'fake-token'
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
