@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirm your email</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    .logo svg {
+      width: 60%;
+      max-width: 200px;
+      height: auto;
+    }
+
+    .greeting {
+      color: #4a47d5;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .text {
+      color: #333333;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    .text a {
+      color: #4a47d5;
+      text-decoration: none;
+    }
+
+    .btn-wrapper {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background-color: #1a35c8;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .footer-text {
+      color: #333333;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    /* Responsive für kleine Bildschirme */
+    @media only screen and (max-width: 480px) {
+      .container {
+        padding: 24px 16px;
+      }
+
+      .btn {
+        display: block;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .logo svg {
+        width: 50%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="logo">
+      {% include 'emails/logo.svg' %}
+    </div>
+
+    <p class="greeting">Dear {{ user.email }},</p>
+
+    <p class="text">
+      Thank you for registering with
+      <a href="#">Videoflix</a>.
+      To complete your registration and verify your
+      email address, please click the link below:
+    </p>
+
+    <div class="btn-wrapper">
+      <a href="{{ activation_url }}" class="btn">Activate account</a>
+    </div>
+
+    <p class="footer-text">
+      If you did not create an account with us,
+      please disregard this email.
+    </p>
+
+    <p class="footer-text">Best regards,</p>
+
+    <p class="footer-text">Your Videoflix Team.</p>
+
+  </div>
+</body>
+</html>
