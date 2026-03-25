@@ -2,6 +2,7 @@
 
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from .models import Video
 
@@ -46,11 +47,11 @@ class VideoAdmin(admin.ModelAdmin):
     def hls_status_badge(self, obj):
         """Render a coloured badge showing the HLS conversion status."""
         if obj.hls_ready:
-            return format_html(
+            return mark_safe(
                 '<span style="color:green;font-weight:bold;">'
                 '✔ Ready</span>'
             )
-        return format_html(
+        return mark_safe(
             '<span style="color:orange;font-weight:bold;">'
             '⏳ Processing</span>'
         )
