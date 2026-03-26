@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from .models import CustomUser
 
@@ -54,13 +54,13 @@ class CustomUserAdmin(UserAdmin):
     def is_active_badge(self, obj):
         """Render a coloured badge for the user's active status."""
         if obj.is_active:
-            return format_html(
+            return mark_safe(
                 '<span style="color:green;font-weight:bold;">'
-                '✔ Active</span>'
+                'Active</span>'
             )
-        return format_html(
+        return mark_safe(
             '<span style="color:red;font-weight:bold;">'
-            '✘ Inactive</span>'
+            'Inactive</span>'
         )
 
     @admin.action(description='Activate selected users')
