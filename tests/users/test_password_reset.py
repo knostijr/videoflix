@@ -35,7 +35,10 @@ class PasswordResetViewTest(VideoflixTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_reset_response_is_identical_for_known_and_unknown_email(self):
-        """The response body must be identical regardless of email existence."""
+        """
+        The response body must be identical 
+        regardless of email existence.
+        """
         response_known = self.client.post(
             self.url, {'email': 'reset@example.com'}
         )
