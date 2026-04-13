@@ -6,6 +6,24 @@ enabling adaptive streaming in 480p, 720p and 1080p.
 
 ---
 
+## Table of Contents
+
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+- [Admin Panel](#admin-panel)
+- [Running Tests](#running-tests)
+- [Migrations](#migrations)
+- [Environment Variables](#environment-variables)
+- [HLS Video Processing](#hls-video-processing)
+- [Authentication Flow](#authentication-flow)
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -41,34 +59,59 @@ enabling adaptive streaming in 480p, 720p and 1080p.
 
 ```
 videoflix-backend/
-├── core/                   # Django settings and root URLs
-├── users/                  # Authentication app
-│   ├── models.py           # CustomUser (email-based login)
-│   ├── managers.py         # CustomUserManager
-│   ├── authentication.py   # CookieJWTAuthentication
-│   ├── serializers.py      # Register, User, PasswordReset serializers
-│   ├── views.py            # All auth views
-│   ├── urls.py             # Auth endpoints
-│   └── utils.py            # Cookie helpers and email functions
-├── videos/                 # Video app
-│   ├── models.py           # Video model with hls_ready flag
-│   ├── serializers.py      # VideoSerializer with absolute thumbnail URL
-│   ├── views.py            # VideoListView, HLSManifestView, HLSSegmentView
-│   ├── urls.py             # Video endpoints
-│   ├── signals.py          # post_save → RQ task
-│   ├── tasks.py            # FFMPEG HLS conversion (480p/720p/1080p)
-│   ├── utils.py            # HLS path helper functions
-│   └── apps.py             # Signal registration
+│
+├── core/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── users/
+│   ├── migrations/
+│   ├── admin.py
+│   ├── apps.py
+│   ├── authentication.py
+│   ├── managers.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── urls.py
+│   ├── utils.py
+│   └── views.py
+│
+├── videos/
+│   ├── migrations/
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── signals.py
+│   ├── tasks.py
+│   ├── urls.py
+│   ├── utils.py
+│   └── views.py
+│
 ├── tests/
-│   ├── base.py             # VideoflixTestCase, UserFactory, InactiveUserFactory
-│   ├── users/              # Auth tests (16)
-│   └── videos/             # Video tests (11)
-├── templates/emails/       # HTML email templates (activation, password reset)
-├── backend.Dockerfile      # Official Akademie Dockerfile
-├── docker-compose.yml      # Official Akademie Docker Compose
-├── backend.entrypoint.sh   # DB health check, migrations, superuser, gunicorn
+│   ├── base.py
+│   ├── users/
+│   │   ├── test_login.py
+│   │   ├── test_password_reset.py
+│   │   └── test_register.py
+│   └── videos/
+│       ├── test_hls_streaming.py
+│       └── test_video_list.py
+│
+├── templates/
+│   └── emails/
+│       ├── activation.html
+│       ├── password_reset.html
+│       └── Logo.svg
+│
+├── backend.Dockerfile
+├── backend.entrypoint.sh
+├── docker-compose.yml
+├── manage.py
 ├── requirements.txt
-├── .env.template           # Environment variable template
+├── .env.template
 └── .gitignore
 ```
 
@@ -140,6 +183,7 @@ docker-compose up --build
 The backend is now running at `http://localhost:8000`.
 
 On first start, the entrypoint automatically:
+
 - Waits for PostgreSQL to be ready
 - Runs all migrations
 - Creates the superuser from `.env`
@@ -228,6 +272,7 @@ Upload → post_save signal → Redis Queue → RQ Worker
 ```
 
 HLS files are stored in:
+
 ```
 media/videos/<video_id>/480p/
 media/videos/<video_id>/720p/
@@ -246,12 +291,3 @@ Register → Activation email → Activate account
             → Auto-refresh via /api/token/refresh/
                 → Logout → Token blacklisted
 ```
-
----
-
-## Notes
-
-- The `.env` file is excluded from version control via `.gitignore`
-- Docker files (`backend.Dockerfile`, `docker-compose.yml`, `backend.entrypoint.sh`) are provided by Developer Akademie and must not be modified
-- All videos are stored in Docker volumes, not locally
-- Mailtrap is recommended for development email testing
