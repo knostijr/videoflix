@@ -19,7 +19,7 @@ staticfiles/
 # Environment
 .env
 .env.*
-!.env.example
+!.env.template
 
 # Testing & Coverage
 .coverage
