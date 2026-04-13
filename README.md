@@ -180,7 +180,7 @@ EMAIL_HOST_PASSWORD=your-mailtrap-password
 docker-compose up --build
 ```
 
-The backend is now running at `http://localhost:8000`.
+The backend is now running at `http://localhost:8000/admin/`.
 
 On first start, the entrypoint automatically:
 
