@@ -153,7 +153,7 @@ cd videoflix-backend
 **2. Create your `.env` file from the template:**
 
 ```bash
-cp .env.template .env
+copy .env.template .env
 ```
 
 **3. Fill in the required values in `.env`:**
