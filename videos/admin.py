@@ -49,11 +49,11 @@ class VideoAdmin(admin.ModelAdmin):
         if obj.hls_ready:
             return mark_safe(
                 '<span style="color:green;font-weight:bold;">'
-                '✔ Ready</span>'
+                'Ready</span>'
             )
         return mark_safe(
             '<span style="color:orange;font-weight:bold;">'
-            '⏳ Processing</span>'
+            'Processing</span>'
         )
 
     @admin.display(description='Thumbnail')
