@@ -64,7 +64,7 @@ class VideoAdmin(admin.ModelAdmin):
                 '<img src="{}" style="height:50px;border-radius:4px;" />',
                 obj.thumbnail.url,
             )
-        return '–'
+        return '-'
 
     @admin.display(description='Preview')
     def thumbnail_preview_large(self, obj):

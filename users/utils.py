@@ -102,7 +102,7 @@ def send_activation_email(request, user):
     context = {'user': user, 'activation_url': activation_url}
     html_content = render_to_string('emails/activation.html', context)
     email = EmailMultiAlternatives(
-        subject='Videoflix – Activate your account',
+        subject='Videoflix - Activate your account',
         body=f'Activate your account: {activation_url}',
         to=[user.email],
     )

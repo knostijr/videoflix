@@ -1,7 +1,10 @@
 """Django signal handlers for the videos app."""
 
+import os
+import shutil
+
 import django_rq
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
 from .models import Video
@@ -25,3 +28,30 @@ def trigger_video_processing(sender, instance, created, **kwargs):
     if created and instance.video_file:
         queue = django_rq.get_queue('default')
         queue.enqueue(process_video_to_hls, instance.pk)
+
+
+@receiver(post_delete, sender=Video)
+def delete_video_files(sender, instance, **kwargs):
+    """
+    Delete all media files from disk when a video is deleted.
+
+    Removes the original video file, the thumbnail and the entire
+    HLS directory containing all converted segments.
+
+    Args:
+        sender: The model class sending the signal (Video).
+        instance (Video): The deleted Video instance.
+        **kwargs: Additional signal keyword arguments.
+    """
+    if instance.video_file:
+        if os.path.isfile(instance.video_file.path):
+            os.remove(instance.video_file.path)
+    if instance.thumbnail:
+        if os.path.isfile(instance.thumbnail.path):
+            os.remove(instance.thumbnail.path)
+    hls_dir = os.path.normpath(os.path.join(
+        os.path.dirname(instance.video_file.path),
+        '..', str(instance.pk)
+    ))
+    if os.path.isdir(hls_dir):
+        shutil.rmtree(hls_dir)
