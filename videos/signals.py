@@ -26,7 +26,7 @@ def trigger_video_processing(sender, instance, created, **kwargs):
         **kwargs: Additional signal keyword arguments.
     """
     if created and instance.video_file:
-        queue = django_rq.get_queue('low')
+        queue = django_rq.get_queue('default')
         queue.enqueue(process_video_to_hls, instance.pk)
 
 
