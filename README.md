@@ -136,6 +136,10 @@ videoflix-backend/
 
 ## Getting Started
 
+> **Windows users:** Make sure `backend.entrypoint.sh` uses **LF** line endings,
+> not CRLF. In VS Code, click `CRLF` in the bottom right corner and select `LF`.
+> Otherwise the container will fail to start.
+
 ### Prerequisites
 
 - Docker Desktop installed and running
